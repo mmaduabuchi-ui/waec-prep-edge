@@ -1,79 +1,104 @@
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 
-const quizData: Record<string, { question: string; options: string[]; answer: string }[]> = {
+type Question = {
+  question: string;
+  options: string[];
+  correctAnswer: string;
+};
+
+const quizData: Record<string, Question[]> = {
   math: [
     {
-      question: "What is 5 + 7?",
-      options: ["10", "11", "12", "13"],
-      answer: "12",
+      question: 'What is 5 + 3?',
+      options: ['6', '7', '8', '9'],
+      correctAnswer: '8',
     },
     {
-      question: "What is the square root of 49?",
-      options: ["5", "6", "7", "8"],
-      answer: "7",
+      question: 'Solve: 12 ÷ 4',
+      options: ['2', '3', '4', '6'],
+      correctAnswer: '3',
+    },
+    {
+      question: 'What is the square root of 49?',
+      options: ['6', '7', '8', '9'],
+      correctAnswer: '7',
     },
   ],
   english: [
     {
-      question: "Choose the correct verb: He _____ to school daily.",
-      options: ["go", "goes", "gone", "going"],
-      answer: "goes",
+      question: 'Which is a noun?',
+      options: ['Run', 'Happy', 'Book', 'Quickly'],
+      correctAnswer: 'Book',
     },
     {
-      question: "Antonym of 'hot' is?",
-      options: ["cold", "warm", "cool", "heat"],
-      answer: "cold",
+      question: '“He *is* running” – what tense is this?',
+      options: ['Past', 'Present continuous', 'Future', 'Perfect'],
+      correctAnswer: 'Present continuous',
+    },
+  ],
+  biology: [
+    {
+      question: 'What organ pumps blood?',
+      options: ['Liver', 'Brain', 'Heart', 'Lungs'],
+      correctAnswer: 'Heart',
+    },
+    {
+      question: 'Plants make food through?',
+      options: ['Respiration', 'Photosynthesis', 'Digestion', 'Fermentation'],
+      correctAnswer: 'Photosynthesis',
     },
   ],
 };
 
-export default function QuizEngine() {
+function QuizEngine() {
   const { subject } = useParams<{ subject: string }>();
-  const questions = quizData[subject || ""] || [];
+  const questions = quizData[subject?.toLowerCase() || ''] || [];
 
-  const [current, setCurrent] = useState(0);
-  const [score, setScore] = useState(0);
-  const [finished, setFinished] = useState(false);
+  const [userAnswers, setUserAnswers] = useState<string[]>(Array(questions.length).fill(''));
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleAnswer = (option: string) => {
-    if (option === questions[current].answer) {
-      setScore(score + 1);
-    }
-
-    const next = current + 1;
-    if (next < questions.length) {
-      setCurrent(next);
-    } else {
-      setFinished(true);
-    }
+  const handleOptionChange = (qIndex: number, option: string) => {
+    const updatedAnswers = [...userAnswers];
+    updatedAnswers[qIndex] = option;
+    setUserAnswers(updatedAnswers);
   };
 
-  if (!questions.length) return <p style={{ padding: "1rem" }}>No quiz found for this subject.</p>;
-
-  if (finished)
-    return (
-      <div style={{ padding: "1rem" }}>
-        <h2>Quiz Finished</h2>
-        <p>Your score: {score} out of {questions.length}</p>
-      </div>
-    );
-
-  const q = questions[current];
+  const score = questions.reduce((total, question, i) => {
+    return userAnswers[i] === question.correctAnswer ? total + 1 : total;
+  }, 0);
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h2>{subject?.toUpperCase()} Quiz</h2>
-      <p><strong>Q{current + 1}:</strong> {q.question}</p>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {q.options.map((opt, idx) => (
-          <li key={idx} style={{ marginBottom: "0.5rem" }}>
-            <button onClick={() => handleAnswer(opt)} style={{ padding: "0.5rem 1rem" }}>
+    <div style={{ padding: '1rem' }}>
+      <h2>📝 Quiz: {subject}</h2>
+      {questions.map((q, i) => (
+        <div key={i} style={{ marginBottom: '1.5rem' }}>
+          <p>
+            <strong>Q{i + 1}: {q.question}</strong>
+          </p>
+          {q.options.map((opt, j) => (
+            <label key={j} style={{ display: 'block' }}>
+              <input
+                type="radio"
+                name={`q${i}`}
+                value={opt}
+                checked={userAnswers[i] === opt}
+                onChange={() => handleOptionChange(i, opt)}
+                disabled={submitted}
+              />
               {opt}
-            </button>
-          </li>
-        ))}
-      </ul>
+            </label>
+          ))}
+        </div>
+      ))}
+
+      {!submitted ? (
+        <button onClick={() => setSubmitted(true)}>Submit</button>
+      ) : (
+        <h3>✅ Your Score: {score} / {questions.length}</h3>
+      )}
     </div>
   );
 }
+
+export default QuizEngine;

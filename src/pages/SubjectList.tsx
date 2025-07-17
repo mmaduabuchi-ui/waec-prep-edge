@@ -2,16 +2,16 @@ import { Link } from 'react-router-dom';
 
 const subjects = ['Math', 'English', 'Biology', 'Chemistry', 'Physics'];
 
-export default function SubjectList() {
+function SubjectList() {
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={{ padding: '1rem' }}>
       <h2>📚 Choose a Subject</h2>
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {subjects.map((subject) => (
-          <li key={subject} style={{ marginBottom: '1rem' }}>
+          <li key={subject} style={{ marginBottom: '1.5rem' }}>
             <h3>{subject}</h3>
-            <Link to={`/lesson/${subject.toLowerCase()}`}>
-              <button style={{ marginRight: '1rem' }}>View Lessons</button>
+            <Link to={`/lesson/${subject.toLowerCase()}`} style={{ marginRight: '1rem' }}>
+              <button>View Lessons</button>
             </Link>
             <Link to={`/quiz/${subject.toLowerCase()}`}>
               <button>Take Quiz</button>
@@ -22,3 +22,5 @@ export default function SubjectList() {
     </div>
   );
 }
+
+export default SubjectList;
