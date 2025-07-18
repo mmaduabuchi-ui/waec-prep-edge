@@ -1,0 +1,15 @@
+{
+  "subject": "English",
+  "quiz": [
+    {
+      "question": "Which of these is a noun?",
+      "options": ["Run", "Table", "Quick", "Beautiful"],
+      "answer": "Table"
+    },
+    {
+      "question": "Identify the adjective: 'She is a brilliant student.'",
+      "options": ["She", "is", "brilliant", "student"],
+      "answer": "brilliant"
+    }
+  ]
+}

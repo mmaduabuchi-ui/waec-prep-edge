@@ -1,21 +1,34 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import SubjectList from './pages/SubjectList';
-import LessonViewer from './pages/LessonViewer';
-import QuizEngine from './pages/QuizEngine';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import LessonPage from './pages/LessonPage';
+import QuizPage from './pages/QuizPage';
 import ExamMode from './pages/ExamMode';
+import InstallPrompt from './InstallPrompt';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/subjects" element={<SubjectList />} />
-        <Route path="/lesson/:subject" element={<LessonViewer />} />
-        <Route path="/quiz/:subject" element={<QuizEngine />} />
-        <Route path="/exam" element={<ExamMode />} />
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <div>
+        <h1>WAECPrepEdge</h1>
+        <nav>
+          <ul style={{ display: 'flex', gap: '1rem', listStyle: 'none' }}>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/lessons">Lessons</Link></li>
+            <li><Link to="/quiz">Quiz</Link></li>
+            <li><Link to="/exam">Exam Mode</Link></li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/lessons" element={<LessonPage />} />
+          <Route path="/quiz" element={<QuizPage />} />
+          <Route path="/exam" element={<ExamMode />} />
+        </Routes>
+
+        <InstallPrompt />
+      </div>
+    </Router>
   );
 }
 
