@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import LessonPage from './pages/LessonPage';
 import QuizPage from './pages/QuizPage';
 import ExamMode from './pages/ExamMode';
+import TutorPage from './pages/TutorPage'; // ✅ NEW IMPORT
 import InstallPrompt from './InstallPrompt';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <li><Link to="/lessons">Lessons</Link></li>
             <li><Link to="/quiz">Quiz</Link></li>
             <li><Link to="/exam">Exam Mode</Link></li>
+            <li><Link to="/tutor">AI Tutor</Link></li> {/* ✅ ADD THIS */}
           </ul>
         </nav>
 
@@ -24,6 +26,7 @@ function App() {
           <Route path="/lessons" element={<LessonPage />} />
           <Route path="/quiz" element={<QuizPage />} />
           <Route path="/exam" element={<ExamMode />} />
+          <Route path="/tutor" element={<TutorPage />} /> {/* ✅ ADD THIS */}
         </Routes>
 
         <InstallPrompt />
