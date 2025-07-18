@@ -1,32 +1,25 @@
-import { useEffect, useState } from 'react';
-
-interface LessonData {
-  subject: string;
-  topic: string;
-  lesson: string;
-}
-
 const LessonPage = () => {
-  const [lesson, setLesson] = useState<LessonData | null>(null);
-
-  useEffect(() => {
-    fetch('/data/lesson1.json')
-      .then((res) => res.json())
-      .then((data) => setLesson(data))
-      .catch((err) => console.error('Error loading lesson:', err));
-  }, []);
-
   return (
     <div>
-      <h2>Lesson Viewer</h2>
-      {lesson ? (
-        <div>
-          <h3>{lesson.subject} - {lesson.topic}</h3>
-          <p>{lesson.lesson}</p>
-        </div>
-      ) : (
-        <p>Loading lesson...</p>
-      )}
+      <h2>English Language - Comprehension</h2>
+      <p>
+        Comprehension involves understanding and interpreting written texts. 
+        In WAEC, you are expected to read passages and answer related questions.
+      </p>
+
+      <h3>Tips for Comprehension:</h3>
+      <ul>
+        <li>Read the questions before the passage.</li>
+        <li>Underline or highlight important points as you read.</li>
+        <li>Focus on context clues for unfamiliar words.</li>
+      </ul>
+
+      <h3>Example Passage:</h3>
+      <blockquote>
+        Ade was a hardworking boy who loved to learn. Every evening, he read under the lantern despite the power outage. His dedication inspired others.
+      </blockquote>
+
+      <p><strong>Example Question:</strong> What qualities made Ade stand out?</p>
     </div>
   );
 };
